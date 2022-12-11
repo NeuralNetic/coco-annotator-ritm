@@ -174,6 +174,11 @@ class RITMInference(object):
             cv2.MORPH_OPEN,
             cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         )
+        res_mask = cv2.morphologyEx(
+            res_mask,
+            cv2.MORPH_CLOSE,
+            cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+        )
         _, res_mask = cv2.threshold(res_mask, 127, 255, cv2.THRESH_BINARY)
         return res_mask // 255
 
