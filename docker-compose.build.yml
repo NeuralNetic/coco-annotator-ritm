@@ -9,6 +9,29 @@ networks:
     external: false
 
 services:
+  ritmserver:
+    build:
+      context: .
+      dockerfile: ./ritm_service/Dockerfile
+    container_name: annotator_ritmservice
+    restart: always
+    ports:
+      - "9019:9019"
+    depends_on:
+      - webserver
+      - workers
+    networks:
+      - cocoannotator
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ '1' ]
+              capabilities: [ gpu ]
+    volumes:
+      - "./models:/models"
+      - "./datasets:/datasets"
   webserver:
     build:
       context: .

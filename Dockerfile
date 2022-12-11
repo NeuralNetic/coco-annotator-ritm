@@ -19,6 +19,9 @@ FROM jsbroks/coco-annotator:python-env
 WORKDIR /workspace/
 COPY ./backend/ /workspace/
 COPY ./.git /workspace/.git
+# RUN pip install -r requirements.txt
+RUN pip install requests_toolbelt
+# RUN pip install numpy
 RUN python set_path.py
 
 COPY --from=build-stage /workspace/client/dist /workspace/dist

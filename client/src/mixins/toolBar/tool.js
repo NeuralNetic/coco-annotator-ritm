@@ -31,6 +31,7 @@ export default {
     onMouseDown() {},
     onMouseDrag() {},
     onMouseUp() {},
+    onKeyDown() {},
     click() {
       this.update();
     },
@@ -86,5 +87,6 @@ export default {
     this.tool.onMouseDrag = this.onMouseDrag;
     this.tool.onMouseMove = this.onMouseMove;
     this.tool.onMouseUp = this.onMouseUp;
+    this.tool.onKeyDown = this.onKeyDown;
   }
 };
