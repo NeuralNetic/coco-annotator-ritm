@@ -54,6 +54,7 @@ services:
       - cocoannotator
   workers:
     container_name: annotator_workers
+    restart: always
     build:
       context: .
       dockerfile: ./backend/workers/Dockerfile
@@ -72,6 +73,7 @@ services:
       - cocoannotator
   messageq:
     image: rabbitmq:3
+    restart: always
     container_name: annotator_message_q
     environment:
       - RABBITMQ_DEFAULT_USER=user
