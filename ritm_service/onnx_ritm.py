@@ -23,6 +23,7 @@ sys.path.insert(
 from isegm.inference import utils
 from isegm.inference.transforms.base import SigmoidForPred
 from isegm.inference.transforms.limit_longest_side import LimitLongestSide
+from isegm.inference.transforms.flip import AddHorizontalFlip
 
 
 class Click:
@@ -70,10 +71,10 @@ class RITMInference(object):
         #     print(self.model.get_inputs()[i].name)
         # print(output_name)
 
-
         self.transforms = []
-        self.transforms.append(LimitLongestSide(max_size=800))
+        self.transforms.append(LimitLongestSide(max_size=1200))
         self.transforms.append(SigmoidForPred())
+        self.transforms.append(AddHorizontalFlip())
         self.net_clicks_limit = 20
 
     def set_input_image(self, image):
@@ -181,7 +182,6 @@ class RITMInference(object):
         )
         _, res_mask = cv2.threshold(res_mask, 127, 255, cv2.THRESH_BINARY)
         return res_mask // 255
-
 
     def __call__(self,
                  input_image: Image.Image,
