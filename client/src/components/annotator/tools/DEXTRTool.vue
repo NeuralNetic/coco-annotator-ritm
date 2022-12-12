@@ -4,7 +4,7 @@ import tool from "@/mixins/toolBar/tool";
 import axios from "axios";
 
 export default {
-  name: "DEXTRTool",
+  name: "RITMTool",
   mixins: [tool],
   props: {
     scale: {
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       icon: "fa-crosshairs",
-      name: "DEXTR",
+      name: "RITM",
       cursor: "crosshair",
       settings: {
         padding: 50,
@@ -74,7 +74,7 @@ export default {
   },
   watch: {
     points(newPoints) {
-      if (newPoints.length > 0 && newPoints.length !== this.previous_points_count) {
+      if (newPoints.length > 0 && this.fg_points.length > 0 && newPoints.length !== this.previous_points_count) {
         this.previous_points_count = newPoints.length;
 
         // let bg_points = this.bg_points;
