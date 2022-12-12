@@ -72,7 +72,7 @@ class RITMInference(object):
         # print(output_name)
 
         self.transforms = []
-        self.transforms.append(LimitLongestSide(max_size=1200))
+        self.transforms.append(LimitLongestSide(max_size=1600))
         self.transforms.append(SigmoidForPred())
         self.transforms.append(AddHorizontalFlip())
         self.net_clicks_limit = 20
