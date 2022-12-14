@@ -20,9 +20,8 @@ sys.path.insert(
     )
 )
 
-from isegm.inference import utils
 from isegm.inference.transforms.base import SigmoidForPred
-from isegm.inference.transforms.limit_longest_side import LimitLongestSide
+# from isegm.inference.transforms.limit_longest_side import LimitLongestSide
 from isegm.inference.transforms.flip import AddHorizontalFlip
 
 
@@ -53,26 +52,16 @@ class RITMInference(object):
         self.device = device
         self.prob_thresh = prob_thresh
 
-        # checkpoint_path = utils.find_checkpoint(
-        #     os.path.dirname(model_path), os.path.basename(model_path)
-        # )
-        # self.model = utils.load_is_model(
-        #     checkpoint_path, torch.device(device), cpu_dist_maps=True)
-
         self.model = onnxruntime.InferenceSession(
             model_path,
             providers=["CUDAExecutionProvider"]
             # providers=["CPUExecutionProvider"]
         )
-        #
-        # output_name = self.model.get_outputs()[0].name
-        #
-        # for i in range(3):
-        #     print(self.model.get_inputs()[i].name)
-        # print(output_name)
+
+        self.max_resolution_size = 1600
 
         self.transforms = []
-        self.transforms.append(LimitLongestSide(max_size=1600))
+        # self.transforms.append(LimitLongestSide(max_size=1600))
         self.transforms.append(SigmoidForPred())
         self.transforms.append(AddHorizontalFlip())
         self.net_clicks_limit = 20
@@ -94,6 +83,25 @@ class RITMInference(object):
             is_image_changed |= t.image_changed
 
         return image_nd, clicks_lists, is_image_changed
+
+    def limit_longest_side(self,
+                           pil_image: Image.Image,
+                           pos_points: List[Tuple[int, int]],
+                           neg_points: List[Tuple[int, int]]) -> Tuple[Image.Image, List[Tuple[int, int]], List[Tuple[int, int]]]:
+        max_image_size = max(pil_image.size)
+        k = self.max_resolution_size / max_image_size
+        if k - 1 < 1E-5:
+            new_w, new_h = int(pil_image.size[0] * k), int(pil_image.size[1] * k)
+            pos_points = (np.array(pos_points, dtype=np.float32) * k).astype(np.int32).tolist()
+            neg_points = (np.array(neg_points, dtype=np.float32) * k).astype(np.int32).tolist()
+            pil_image = pil_image.resize((new_w, new_h), Image.BICUBIC)
+
+        return pil_image, pos_points, neg_points
+
+    def reverse_transform(self, result_mask: np.ndarray, orig_size: Tuple[int, int]):
+        if result_mask.shape[0] == orig_size[1] and result_mask.shape[1] == orig_size[0]:
+            return result_mask
+        return cv2.resize(result_mask, orig_size, cv2.INTER_NEAREST)
 
     def get_points_nd(self, clicks_lists):
         total_clicks = []
@@ -132,7 +140,6 @@ class RITMInference(object):
                    input_image: Image.Image,
                    pos_points: List[Tuple[int, int]],
                    neg_points: List[Tuple[int, int]]):
-
         clicks_list = []
 
         for _pidx, pp in enumerate(pos_points):
@@ -154,20 +161,8 @@ class RITMInference(object):
         )
         logging.info('Raw inference time: {:.5f}'.format(time() - start_time))
 
-        # prediction = torch.nn.functional.interpolate(
-        #     pred_logits, mode='bilinear',
-        #     align_corners=True,
-        #     size=image_nd.size()[2:]
-        # )
-
         for t in reversed(self.transforms):
             prediction = t.inv_transform(prediction)
-
-        # prediction = cv2.resize(
-        #     prediction,
-        #     input_image.size,
-        #     interpolation=cv2.INTER_CUBIC
-        # )
 
         res_mask = (prediction[0, 0].numpy() > self.prob_thresh).astype(np.uint8) * 255
         res_mask = cv2.morphologyEx(
@@ -181,7 +176,7 @@ class RITMInference(object):
             cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         )
         _, res_mask = cv2.threshold(res_mask, 127, 255, cv2.THRESH_BINARY)
-        return res_mask // 255
+        return res_mask
 
     def __call__(self,
                  input_image: Image.Image,
@@ -197,24 +192,11 @@ class RITMInference(object):
         Returns:
             Boolean mask
         """
-        return self.prediction(input_image, pos_points, neg_points)
-
-
-if __name__ == '__main__':
-    import numpy as np
-    import cv2
-
-    def open_image(_img_path: str) -> np.ndarray:
-        _img = cv2.imread(_img_path, cv2.IMREAD_COLOR)
-        assert _img is not None, _img_path
-        return cv2.cvtColor(_img, cv2.COLOR_BGR2RGB)
-
-    img = open_image('/home/alexey/Downloads/dog.png')
-
-    point_fg = (400, 300)
-    point_bg = (200, 400)
-
-    ritm = RITMInference('notebooks/ritm.onnx')
-    # ritm = RITMInference('coco_lvis_h18_itermask.pth')
-
-    res = ritm.prediction(Image.fromarray(img), [point_fg], [point_bg])
+        orig_size = input_image.size
+        input_image, pos_points, neg_points = self.limit_longest_side(
+            input_image, pos_points, neg_points
+        )
+        return self.reverse_transform(
+            self.prediction(input_image, pos_points, neg_points),
+            orig_size
+        )
