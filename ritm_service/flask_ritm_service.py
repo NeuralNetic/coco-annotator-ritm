@@ -34,9 +34,9 @@ ritm_serve: FunctionServingWrapper = None
 
 def serve_pil_image(pil_img):
     img_io = io.BytesIO()
-    pil_img.save(img_io, 'JPEG')
+    pil_img.save(img_io, 'PNG')
     img_io.seek(0)
-    return send_file(img_io, mimetype='image/jpg')
+    return send_file(img_io, mimetype='image/png')
 
 
 @app.route('/predict', methods=['POST'])
@@ -60,10 +60,7 @@ def server_inference():
         inference_time = time() - start_time
         logging.info('Inference time: {:.5f}'.format(inference_time))
 
-        start_time = time()
         result = Image.fromarray(result)
-        convert_time = time() - start_time
-        logging.info('PIL converting time: {:.5f}'.format(convert_time))
     except Exception as e:
         logging.error(
             'server_inference: traced exception'
