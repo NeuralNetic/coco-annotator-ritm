@@ -138,6 +138,8 @@ Thanks to all these wonderful libaries/frameworks:
 
 # Citation
 
+It is open source modification, please cite the authors of original repo:
+
 ```
   @MISC{cocoannotator,
     author = {Justin Brooks},
@@ -146,3 +148,5 @@ Thanks to all these wonderful libaries/frameworks:
     year = {2019},
   }
 ```
+
+and me [Alexey Kovalenko](https://github.com/AlexeySrus) :blush:
