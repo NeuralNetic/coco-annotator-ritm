@@ -150,3 +150,12 @@ It is open source modification, please cite the authors of original repo:
 ```
 
 and me [Alexey Kovalenko](https://github.com/AlexeySrus) :blush:
+
+```
+  @MISC{cocoannotatorritm,
+    author = {Alexey Kovalenko},
+    title = {{COCO Annotator with RITM}},
+    howpublished = "\url{https://github.com/NeuralNetic/coco-annotator-ritm/}",
+    year = {2023},
+  }
+```
