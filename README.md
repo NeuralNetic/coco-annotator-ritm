@@ -109,6 +109,12 @@ If you enjoy the development of coco-annotator or are looking for an enterprise 
    </p>
 </p>
 
+# Deploy
+To build solution use the following docker compose config: `docker-compose.build.yml`
+Build command:
+```shell
+docker compose -f docker-compose.build.yml up --build
+```
 # Built With
 
 Thanks to all these wonderful libaries/frameworks:
