@@ -1,4 +1,4 @@
-<p align="center"><img src="https://i.imgur.com/AA7IdbQ.png"></p>
+<p align="center"><img src="https://github.com/NeuralNetic/coco-annotator-ritm/blob/ritm_integration/materials/nnedition_coco.png"></p>
 
 <p align="center">
   <a href="#features">Features</a> •
