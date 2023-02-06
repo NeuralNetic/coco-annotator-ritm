@@ -21,4 +21,5 @@ future
 cffi
 ninja
 protobuf==3.19.4
+aiohttp==3.8.3
 aqueduct==1.10.12
