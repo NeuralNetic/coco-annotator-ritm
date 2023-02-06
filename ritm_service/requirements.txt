@@ -21,3 +21,4 @@ future
 cffi
 ninja
 protobuf==3.19.4
+aqueduct==1.10.12

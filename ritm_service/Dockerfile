@@ -10,11 +10,9 @@ RUN apt-get update && \
 RUN apt-get install ffmpeg libsm6 libxext6  -y && apt clean
 
 COPY ./ritm_service /app
-# COPY ./models/coco_lvis_h18_itermask.pth /app/coco_lvis_h18_itermask.pth
-# COPY ./models/ritm.onnx /app/ritm.onnx
 WORKDIR /app/
 ENV PYTHONPATH=/app
 
 RUN pip3 install -r requirements.txt
 
-CMD python3 flask_ritm_service.py --model /models/ritm32.onnx --ip "0.0.0.0" --port 9019
+CMD python3 -m ritmapp.app

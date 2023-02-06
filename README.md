@@ -124,6 +124,8 @@ Thanks to all these wonderful libaries/frameworks:
 - [Flask](http://flask.pocoo.org/) - Python web microframework
 - [MongoDB](https://www.mongodb.com/) - Cross-platform document-oriented database
 - [MongoEngine](http://mongoengine.org/) - Python object data mapper for MongoDB
+- [ONNX](https://onnx.ai/) - Model inference framework
+- [Aqueduct](https://github.com/avito-tech/aqueduct) - Framework to effective neural model serving
 
 ### Frontend
 
