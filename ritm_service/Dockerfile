@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Moscow
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y curl screen python3 build-essential python3-pip
+    apt-get install --no-install-recommends -y cmake curl build-essential screen python3-dev python3-pip
 RUN apt-get install ffmpeg libsm6 libxext6  -y && apt clean
 
 COPY ./ritm_service /app
