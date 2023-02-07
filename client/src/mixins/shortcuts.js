@@ -78,6 +78,13 @@ export default {
           }
         },
         {
+          default: ["i"],
+          name: "RITM Tool",
+          function: () => {
+            if (!this.$refs.polygon.isDisabled) this.activeTool = "RITM";
+          }
+        },
+        {
           default: ["n"],
           name: "Next Image",
           function: this.nextImage

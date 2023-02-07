@@ -1,18 +1,18 @@
 <template>
-  <div v-show="dextr.isActive">
+  <div v-show="ritm.isActive">
     <PanelInputNumber
       name="Padding"
       min="0"
       max="1000"
       step="2"
-      v-model="dextr.settings.padding"
+      v-model="ritm.settings.padding"
     />
     <PanelInputNumber
       name="Threshold"
       min="0"
       max="100"
       step="5"
-      v-model="dextr.settings.threshold"
+      v-model="ritm.settings.threshold"
     />
   </div>
 </template>
@@ -21,10 +21,10 @@
 import PanelInputNumber from "@/components/PanelInputNumber";
 
 export default {
-  name: "DEXTRPanel",
+  name: "RITMPanel",
   components: { PanelInputNumber },
   props: {
-    dextr: {
+    ritm: {
       type: Object,
       required: true
     }
