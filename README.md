@@ -80,7 +80,7 @@ Several annotation tools are currently available, with most applications as a de
 - Annotate disconnect objects as a single instance
 - Labeling image segments with any number of labels simultaneously
 - Allow custom metadata for each instance or object
-- Advanced selection tools such as, [DEXTR](https://github.com/jsbroks/dextr-keras), [MaskRCNN](https://github.com/matterport/Mask_RCNN) and Magic Wand
+- Advanced selection and interactive segmentation tools such as, [RITM](https://github.com/saic-vul/ritm_interactive_segmentation), [MaskRCNN](https://github.com/matterport/Mask_RCNN) and Magic Wand
 - Annotate images with semi-trained models
 - Generate datasets using google images
 - User authentication system
