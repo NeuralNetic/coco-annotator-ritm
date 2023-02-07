@@ -111,6 +111,9 @@ If you enjoy the development of coco-annotator or are looking for an enterprise 
 
 # Deploy
 To build solution use the following docker compose config: `docker-compose.build.yml`
+
+Before building please [download](https://drive.google.com/file/d/1FR7IoiHsuJLSaUMRS4cqw8WmZBlddWlD/view?usp=share_link) converted to ONNX RITM model and copy it to the `./models` folder.
+
 Build command:
 ```shell
 docker compose -f docker-compose.build.yml up --build
