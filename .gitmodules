@@ -1,3 +1,0 @@
-[submodule "backend/webserver/backend/webserver/third_party/ritm_interactive_segmentation"]
-	path = backend/webserver/backend/webserver/third_party/ritm_interactive_segmentation
-	url = https://github.com/saic-vul/ritm_interactive_segmentation
