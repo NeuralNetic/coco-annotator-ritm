@@ -26,7 +26,12 @@ def main():
         if not os.path.isfile(file_path):
             continue
 
-        pil_img = Image.open(file_path)
+        try:
+            pil_img = Image.open(file_path)
+        except Exception as e:
+            print('Delete image {}, because {}'.format(file_path, e))
+            os.remove(file_path)
+
         pil_img = ImageOps.exif_transpose(pil_img)
         pil_img = Image.fromarray(np.array(pil_img.convert('RGB')))
         pil_img.save(file_path)
