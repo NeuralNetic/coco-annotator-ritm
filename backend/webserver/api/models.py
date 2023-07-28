@@ -33,6 +33,8 @@ def get_mask_from_image_by_ritm(
     # _image.save(image_file, 'PNG')
     # image_file.seek(0)
 
+    logging.debug('RITM API: {}'.format(_api))
+
     mp_encoder = MultipartEncoder(
         fields={
             # 'image': (
