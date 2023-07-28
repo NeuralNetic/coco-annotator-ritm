@@ -22,14 +22,19 @@ services:
             - workers
         networks:
             - cocoannotator
-        runtime: nvidia
-        #    deploy:
-        #      resources:
-        #        reservations:
-        #          devices:
-        #            - driver: nvidia
-        #              count: 1
-        #              capabilities: [ gpu ]
+        # runtime: nvidia
+        deploy:
+            restart_policy:
+                condition: any
+                delay: 3s
+                window: 12s
+
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          device_ids: [ '0' ]
+                          capabilities: [ gpu ]
         volumes:
             - "./models:/models"
             - "./datasets:/datasets"
