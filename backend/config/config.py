@@ -69,7 +69,7 @@ class Config:
 
     DEXTR_FILE = os.getenv("DEXTR_FILE", "/models/dextr_pascal-sbd.h5")
 
-    RITM_FILE = os.getenv("DEXTR_FILE", "/models/coco_lvis_h18_itermask.pth")
+    RITM_API = os.getenv("RITM_API", None)
 
 
 __all__ = ["Config"]

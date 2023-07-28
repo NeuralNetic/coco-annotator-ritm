@@ -20,15 +20,11 @@ import logging
 logger = logging.getLogger('gunicorn.error')
 
 
-RITM_API: Optional[str] = os.getenv("RITM_API", None)
-assert RITM_API is not None, "Need to enable RITM_API env"
-
-
 def get_mask_from_image_by_ritm(
         # _image: Image.Image,
         _image_path: str,
         _points,
-        _api: str = RITM_API) -> np.ndarray:
+        _api: str = Config.RITM_API) -> np.ndarray:
     # image_file = io.BytesIO()
     # _image.save(image_file, 'PNG')
     # image_file.seek(0)
@@ -84,9 +80,7 @@ else:
     logger.warning("DEXTR model is disabled.")
 
 
-RITM_LOADED = os.path.isfile(Config.RITM_FILE)
-if not RITM_LOADED:
-    logger.warning("RITM model is disabled.")
+RITM_LOADED = Config.RITM_API is not None
 
 api = Namespace('model', description='Model related operations')
 
