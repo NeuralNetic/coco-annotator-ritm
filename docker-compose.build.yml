@@ -50,6 +50,7 @@ services:
             - SECRET_KEY=RandomSecretKeyHere
             - FILE_WATCHER=true
             - NAME=Test Annotator
+            - RITM_API=http://ritmserver:9019/predict
         volumes:
             - "./datasets:/datasets"
             - "./models:/models"
